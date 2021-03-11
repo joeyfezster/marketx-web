@@ -30,6 +30,7 @@ jobs:
         run: |
           git config --global user.email "joey.baruch@gmail.com"
           git config --global user.name "Joey Baruch (publish workflow)"
+          git remote set-url origin https://joeyfezster:ed77cb050c53136a4746259124dea33039d48d6a@github.com/joeyfezster/marketx-web/
       
       - name: publish
         run: |
