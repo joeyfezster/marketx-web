@@ -12,7 +12,7 @@ function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
+        <BrowserRouter basename="marketx-web">
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/signin" exact component={SigninPage} />
