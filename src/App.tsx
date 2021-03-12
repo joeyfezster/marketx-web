@@ -1,11 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import HomePage from 'pages/home/HomePage';
 import SigninPage from 'pages/auth/SigninPage';
 import SignupPage from 'pages/auth/SignupPage';
+import AppRoute from 'shared/route/AppRoute';
 import { store, persistor } from './store'
 
 function App() {
@@ -14,9 +15,9 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter basename="marketx-web">
           <Switch>
-            <Route path="/" exact component={HomePage} />
-            <Route path="/signin" exact component={SigninPage} />
-            <Route path="/signup" exact component={SignupPage} />
+            <AppRoute path="/signin" component={SigninPage} />
+            <AppRoute path="/signup" component={SignupPage} />
+            <AppRoute restricted={true} path="/" component={HomePage} />
           </Switch>
         </BrowserRouter>
       </PersistGate>
