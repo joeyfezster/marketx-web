@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import { GroupDeal, useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
 import logo from "../../shared/hardcodedMedia/robinhood_logo.png"
 import GroupDealParticipant from "./GroupDealParticipants"
+import LoggedInUserCommitment from "./LoggedInUserCommitment"
 
 type GroupDealRouteParams = {
     id: string
@@ -33,7 +34,8 @@ const GroupDealPage: React.FunctionComponent = () => {
                 </div>
             )}
             {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} dealCreatorID={groupDeal.group_creator.id} key={p.id} />)}
-
+            {render && <hr></hr>}
+            {render && <LoggedInUserCommitment groupDealID={groupDeal?.id} minimumParticipation={groupDeal?.minimum_participation} />}
         </div>
     )
 }
