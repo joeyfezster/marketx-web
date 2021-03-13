@@ -44,6 +44,7 @@ const SigninForm = (props: SigninFormProps & FormikProps<FormValues>) => {
                 className={classes.formItem}
                 required
                 name="password"
+                type="password"
                 label="Password"
                 defaultValue=""
                 variant="outlined"
