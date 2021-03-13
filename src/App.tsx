@@ -11,6 +11,7 @@ import GroupDealPage from 'pages/groupDeal/GroupDealPage'
 import { store, persistor } from './store'
 import { SWRConfig } from 'swr';
 import { fetcher } from 'shared/utils/swrHooks/swrFetcher';
+import routePaths from 'shared/routePaths';
 
 function App() {
   return (
@@ -24,10 +25,10 @@ function App() {
         >
           <BrowserRouter basename="marketx-web">
             <Switch>
-              <AppRoute path="/signin" component={SigninPage} />
-              <AppRoute path="/signup" component={SignupPage} />
+              <AppRoute path={routePaths.SIGNIN} component={SigninPage} />
+              <AppRoute path={routePaths.SIGNUP} component={SignupPage} />
               <AppRoute restricted={true} path="/" component={HomePage} />
-              <AppRoute restricted={true} path="/group_deal/:id" component={GroupDealPage} />
+              <AppRoute restricted={true} path={routePaths.GROUP_DEAL} component={GroupDealPage} />
             </Switch>
           </BrowserRouter>
         </SWRConfig>
