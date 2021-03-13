@@ -15,7 +15,6 @@ type SignupFormProps = {
 }
 
 type FormValues = {
-    name: string
     username: string
     email: string
     password: string
@@ -32,17 +31,6 @@ const SignupForm = (props: SignupFormProps & FormikProps<FormValues>) => {
             <div className={classes.formHeader}>
                 <Typography variant="h5">Register</Typography>
             </div>
-            <TextField
-                className={classes.formItem}
-                required
-                name="name"
-                label="Name"
-                defaultValue=""
-                variant="outlined"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    setFieldValue('name', event.target.value, false)
-                }}
-            />
             <TextField
                 className={classes.formItem}
                 required
@@ -109,7 +97,6 @@ const SignupForm = (props: SignupFormProps & FormikProps<FormValues>) => {
 
 export default withFormik<SignupFormProps, FormValues>({
     mapPropsToValues: () => ({
-        name: '',
         username: '',
         email: '',
         password: '',
@@ -118,9 +105,6 @@ export default withFormik<SignupFormProps, FormValues>({
     validate: values => {
         const errors: Record<string, string> = {};
 
-        if (!values.name) {
-            errors.name = 'Required';
-        }
         if (!values.username) {
             errors.username = 'Required';
         }
@@ -140,7 +124,6 @@ export default withFormik<SignupFormProps, FormValues>({
     handleSubmit: (values, { setSubmitting, props }) => {
         props.onSubmit({
             data: {
-                name: values.name,
                 username: values.username,
                 email: values.email,
                 password: values.password

@@ -13,7 +13,6 @@ export type LoginUserPayload = {
 }
 
 export type RegisterUserApiData = {
-  name: string
   username: string
   email: string
   password: string
