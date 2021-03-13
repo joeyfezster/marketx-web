@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: [],
+  whitelist: ['authState'],
 }
 
 const sagaMiddleware = createSagaMiddleware() as SagaMiddleware<RootState>

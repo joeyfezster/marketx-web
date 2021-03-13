@@ -1,16 +1,6 @@
-export type Role = {
-  id: number
-  name: string
-  description: string
-}
-
 export type UserResponse = {
-  id: number
-  firstname: string
-  lastname: string
+  id: string
   username: string
-  role: Role
-  memberGroupId?: number
 }
 
 export type LoginUserPayload = {
