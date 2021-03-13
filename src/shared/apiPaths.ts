@@ -6,7 +6,7 @@ const apiPaths = {
   DEALS: `${baseUrl}/deals`,
   GROUP_DEAL: (id: number) => `${baseUrl}/deals/${id}`,
   DEAL_PARTICIPANTS: `${baseUrl}/deal-participants`,
-  DEAL_PARTICIPANT: (id: number) => `${baseUrl}/deal-participants/${id}`,
+  DEAL_PARTICIPANT: (id: string | number | undefined) => `${baseUrl}/deal-participants/${id}`,
 }
 
 export default apiPaths
