@@ -5,8 +5,7 @@ export type DealParticipant = {
     id: number
     participant: {
         id: number
-        firstname: string
-        lastname: string
+        username: string
         email: string
     }
 

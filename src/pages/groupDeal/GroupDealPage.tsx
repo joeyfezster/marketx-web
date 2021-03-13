@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom"
 import { GroupDeal, useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
 import { RootState } from "store"
 import logo from "../../shared/hardcodedMedia/robinhood_logo.png"
+import GroupDealParticipant from "./GroupDealParticipants"
 
 type GroupDealRouteParams = {
     id: string
@@ -14,27 +15,28 @@ type GroupDealRouteParams = {
 
 
 const GroupDealPage: React.FunctionComponent = () => {
-    const { loggedInUser } = useSelector((state: RootState) => state.authState)
     const { id: groupDealID } = useParams<GroupDealRouteParams>()
     const { data: groupDeal, isValidating } = useGetGroupDeal(Number(groupDealID))
-    console.log(`logged in user`, loggedInUser)
+    const render = !isValidating && groupDeal
     // const { data: participant, isValidating } = useGetDealParticipant(1)
     return (
         <div>
             {isValidating && <CircularProgress />}
-            {groupDeal && (
-                renderGroupDealHeadder(groupDeal)
+            {render && (
+                renderGroupDealHeadder(groupDeal!!)
             )}
-            <hr></hr>
-            {groupDeal && (
+            {render && (
                 <div>
+                    <hr></hr>
                     <Typography>
                         "Social Media Share Section"
                     </Typography>
+                    <hr></hr>
                 </div>
             )}
-            <hr></hr>
-            {/* {groupDeal && (renderGroupDealParticipants(groupDeal, loggedInUser.data?.id))} */}
+            {render && <GroupDealParticipant dealParticipantID={groupDeal?.group_creator.id} />}
+            {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} key={p.id} />)}
+
         </div>
     )
 }
@@ -52,6 +54,7 @@ const getAggregatedCommitment = (groupDeal: GroupDeal): number => {
 }
 
 const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
+    const memberCount = groupDeal.deal_participants?.length ? groupDeal.deal_participants.length + 1 : '¿'
     return (
         <div>
             <img src={logo} alt='Robinhood' width="166" height="100" />
@@ -62,7 +65,7 @@ const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
                 {`Group Name: ${groupDeal.group_name || 'Unknown'}`}
             </Typography>
             <Typography>
-                {`${groupDeal.deal_participants?.length || '¿'} members`}
+                {`${memberCount || '¿'} members`}
             </Typography>
             <Typography>
                 {groupDeal.is_open ? `${timeRemaining(groupDeal.deal_deadline)} left!` : `This Deal Is Closed`}

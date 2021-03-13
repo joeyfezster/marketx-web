@@ -3,7 +3,7 @@ import useSWR, { SWRResponse } from 'swr'
 
 // Note: GroupParticipant is not the same as DealParticipant, as it only includes the end user's id, no email, name or other data
 export type GroupParticipant = {
-    id: number
+    id: number | undefined
     committed_participation: number
     participant: number //this is the end user id
 }
