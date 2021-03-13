@@ -46,7 +46,7 @@ const timeRemaining = (timestamp: string) => {
 };
 
 const getAggregatedCommitment = (groupDeal: GroupDeal): number => {
-    let acc: number = groupDeal.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b)
+    let acc: number = groupDeal?.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b, 0)
     return acc
 }
 
@@ -68,7 +68,7 @@ const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
                 {groupDeal.is_open ? `${timeRemaining(groupDeal.deal_deadline)} left!` : `This Deal Is Closed`}
             </Typography>
             <Typography>
-                {`We need a minimum of $${groupDeal.minimum_agg_threshold | 1000000} of which $${getAggregatedCommitment(groupDeal)} has been commited`}
+                {`We need a minimum of $${groupDeal.minimum_agg_threshold || 1000000} of which $${getAggregatedCommitment(groupDeal)} has been commited`}
             </Typography>
         </div>
     )
