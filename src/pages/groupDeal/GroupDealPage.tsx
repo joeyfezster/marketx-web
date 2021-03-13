@@ -32,8 +32,7 @@ const GroupDealPage: React.FunctionComponent = () => {
                     <hr></hr>
                 </div>
             )}
-            {render && <GroupDealParticipant dealParticipantID={groupDeal?.group_creator.id} />}
-            {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} key={p.id} />)}
+            {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} dealCreatorID={groupDeal.group_creator.id} key={p.id} />)}
 
         </div>
     )
@@ -48,11 +47,11 @@ const timeRemaining = (timestamp: string) => {
 
 const getAggregatedCommitment = (groupDeal: GroupDeal): number => {
     let acc: number = groupDeal.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b)
-    return groupDeal.group_creator.committed_participation + acc
+    return acc
 }
 
 const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
-    const memberCount = groupDeal.deal_participants?.length ? groupDeal.deal_participants.length + 1 : '¿'
+    const memberCount = groupDeal.deal_participants?.length
     return (
         <div>
             <img src={logo} alt='Robinhood' width="166" height="100" />

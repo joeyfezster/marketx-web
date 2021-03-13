@@ -2,15 +2,24 @@ import { Typography } from "@material-ui/core"
 import React from "react"
 import { useSelector } from "react-redux"
 import { useGetDealParticipant } from "shared/utils/swrHooks/useGetDealParticipant"
+import { useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
 import { RootState } from "store"
 
-const GroupDealParticipant: React.FunctionComponent<{ dealParticipantID: number | undefined }> = ({
-    dealParticipantID
+type GroupDealParticipantProps = {
+    dealParticipantID: number | undefined
+    dealCreatorID: number | undefined
+}
+
+const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> = ({
+    dealParticipantID,
+    dealCreatorID,
 }) => {
     const { data: participant, isValidating } = useGetDealParticipant(Number(dealParticipantID))
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
     console.log(`logged in user`, loggedInUser)
 
+    const isCreator = dealParticipantID === dealCreatorID
+    const createdBy = isCreator ? '*' : ''
 
     // TODO: skip logged in user
     //     if (participant.participant == loggedInUserID) return null
@@ -20,7 +29,7 @@ const GroupDealParticipant: React.FunctionComponent<{ dealParticipantID: number 
             {!isValidating && participant && (
                 <div>
                     <Typography>
-                        {`username: ${participant.participant.username}`}
+                        {`${createdBy}username: ${participant.participant.username}`}
                     </Typography>
                     <Typography>
                         {/* remove this for user privacy */}
