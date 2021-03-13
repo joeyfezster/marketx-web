@@ -9,7 +9,7 @@ import { RegisterUserPayload } from './state/types'
 import { authStyles } from './styles'
 
 
-const SignupPage = () => {
+const SignupPage: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = authStyles();
