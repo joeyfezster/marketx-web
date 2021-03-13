@@ -1,5 +1,4 @@
 import { Button, TextField, Typography } from '@material-ui/core'
-import { Formik } from 'formik'
 import { CreateDealParticipantAction, UpdateDealParticipantAction } from 'pages/home/state/groupActions'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'

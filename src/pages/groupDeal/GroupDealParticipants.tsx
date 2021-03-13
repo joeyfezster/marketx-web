@@ -1,8 +1,6 @@
 import { Typography } from "@material-ui/core"
 import React from "react"
-import { useSelector } from "react-redux"
 import { useGetDealParticipant } from "shared/utils/swrHooks/useGetDealParticipant"
-import { RootState } from "store"
 
 type GroupDealParticipantProps = {
     dealParticipantID: number | undefined
