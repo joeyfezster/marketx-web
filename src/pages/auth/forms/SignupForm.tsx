@@ -96,13 +96,13 @@ const SignupForm = (props: SignupFormProps & FormikProps<FormValues>) => {
                 color="primary"
             >
                 SIGN UP
-                </Button>
+            </Button>
             <Link
                 className={classes.formItem}
                 to="/signin"
             >
                 Already have an account? Sign in
-                </Link>
+            </Link>
         </Form>
     );
 }
