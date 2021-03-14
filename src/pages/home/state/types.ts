@@ -34,9 +34,12 @@ export type CreateDealParticipantApiData = {
 }
 
 export type CreateGroupDealData = {
-  groupName: string
-  yourCommitment: number
-  minimumAggregatedThreshold: number
-  minimumParticipation: number
-  usersCanInviteFriends: boolean
+  data: {
+    groupName: string
+    yourCommitment: number
+    minimumAggregatedThreshold: number
+    minimumParticipation: number
+    usersCanInviteFriends: boolean
+  },
+  onSuccess: () => void,
 }

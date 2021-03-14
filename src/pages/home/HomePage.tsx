@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,6 +19,7 @@ enum MODAL_TYPE {
 
 const HomePage = () => {
     const classes = homePageStyles()
+    const history = useHistory()
     const dispatch = useDispatch()
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
     const [modalVisible, setModalVisibility] = useState(false)
@@ -41,26 +43,30 @@ const HomePage = () => {
         );
     }
 
-    const onGroupSubmit = (data: CreateGroupDealData) => {
+    const onGroupSubmit = (payload: CreateGroupDealData) => {
         dispatch(CreateDealParticipantAction({
             data: {
                 participant: loggedInUser?.data?.id,
-                committed_participation: data.yourCommitment
+                committed_participation: payload.data.yourCommitment
             },
             onSuccess: (response: DealParticipantResponse) => {
                 dispatch(CreateGroupDealAction({
                     data: {
                         group_creator: response.id,
-                        group_name: data.groupName,
-                        minimum_agg_threshold: data.minimumAggregatedThreshold,
-                        minimum_participation: data.minimumParticipation,
-                        paticipants_can_invite_friends: data.usersCanInviteFriends
+                        group_name: payload.data.groupName,
+                        minimum_agg_threshold: payload.data.minimumAggregatedThreshold,
+                        minimum_participation: payload.data.minimumParticipation,
+                        paticipants_can_invite_friends: payload.data.usersCanInviteFriends
                     },
                     onSuccess: (groupDealResponse: GroupDealResponse) => {
                         dispatch(UpdateDealParticipantAction({
                             data: {
                                 id: response.id,
                                 deal: groupDealResponse.id
+                            },
+                            onSuccess: () => {
+                                payload.onSuccess();
+                                history.push(`/group_deal/${groupDealResponse.id}`)
                             }
                         }))
                     }
