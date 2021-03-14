@@ -8,6 +8,8 @@ import LoggedInUserCommitment from "./LoggedInUserCommitment"
 import GroupDealHeader from "./GroupDealHeader"
 import GroupDealShare from "./GroupDealShare"
 import { groupDealStyles } from './styles'
+import { mutate } from "swr"
+import apiPaths from "shared/apiPaths"
 
 type GroupDealRouteParams = {
     id: string
@@ -16,8 +18,9 @@ type GroupDealRouteParams = {
 const GroupDealPage: React.FunctionComponent = () => {
     const classes = groupDealStyles()
     const { id: groupDealID } = useParams<GroupDealRouteParams>()
-    const { data: groupDeal, isValidating } = useGetGroupDeal(Number(groupDealID))
-    const render = !isValidating && groupDeal
+    const { data: groupDeal, isValidating, revalidate } = useGetGroupDeal(Number(groupDealID))
+    const shortlink = window.location.href
+    const shouldRender = !isValidating || groupDeal
 
     const renderMembersSection = (groupDeal: GroupDeal) => {
         return (
@@ -30,13 +33,22 @@ const GroupDealPage: React.FunctionComponent = () => {
         )
     }
 
+
+    const handleCommitment = (loggedInUserDealParticipantID: string | undefined) => {
+        revalidate()
+        mutate(apiPaths.DEAL_PARTICIPANT(loggedInUserDealParticipantID))
+    }
+
     return (
         <div className={classes.root}>
-            {isValidating && <CircularProgress />}
-            {render && <GroupDealHeader groupDeal={groupDeal!!} />}
-            {render && <GroupDealShare groupDeal={groupDeal!!} />}
-            {render && renderMembersSection(groupDeal!!)}
-            {render && <LoggedInUserCommitment groupDealID={groupDeal?.id} minimumParticipation={groupDeal?.minimum_participation} />}
+            {isValidating && !shouldRender && <CircularProgress />}
+            {shouldRender &&
+                <>
+                    <GroupDealHeader groupDeal={groupDeal!!} />
+                    <GroupDealShare groupDeal={groupDeal!!} />
+                    {renderMembersSection(groupDeal!!)}
+                    <LoggedInUserCommitment groupDealID={groupDeal?.id} minimumParticipation={groupDeal?.minimum_participation} onCommitment={handleCommitment} />
+                </>}
         </div>
     )
 }

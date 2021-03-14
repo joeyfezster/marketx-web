@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from '@material-ui/core'
 import { CreateDealParticipantAction, UpdateDealParticipantAction } from 'pages/home/state/groupActions'
-import React, { useState } from 'react'
+import { DealParticipantResponse } from 'pages/home/state/types'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFindDealParticipant } from 'shared/utils/swrHooks/useGetDealParticipant'
 import { RootState } from 'store'
@@ -9,11 +10,13 @@ import { groupDealStyles } from './styles'
 type LoggedInUserCommitmentProps = {
     groupDealID: number | undefined,
     minimumParticipation: number | undefined,
+    onCommitment: (loggedInUserDealParticipantID: string | undefined) => void,
 }
 
 const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProps> = ({
     groupDealID,
-    minimumParticipation
+    minimumParticipation,
+    onCommitment
 }) => {
     const classes = groupDealStyles()
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
@@ -22,6 +25,12 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
     const dispatch = useDispatch()
 
     const loggedInUserIsAlreadyAParticipant = !isValidating && dealParticipant && dealParticipant.committed_participation
+
+    useEffect(() => {
+        if (dealParticipant?.committed_participation) {
+            setCommitment(dealParticipant.committed_participation)
+        }
+    }, [dealParticipant])
 
     if (!loggedInUser || !loggedInUser.data) {
         return null
@@ -33,6 +42,9 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
                 participant: loggedInUser?.data?.id,
                 committed_participation: commitment,
                 deal: groupDealID?.toString()
+            },
+            onSuccess(response: DealParticipantResponse) {
+                onCommitment(response.id)
             }
         }))
     }
@@ -42,6 +54,9 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
             data: {
                 id: dealParticipant?.id.toString(),
                 committed_participation: commitment
+            },
+            onSuccess() {
+                onCommitment(dealParticipant?.id.toString())
             }
         }))
     }
@@ -57,7 +72,6 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
         else {
             createNewDealParticipant()
         }
-        window.location.reload();
     }
 
     if (!isValidating) {

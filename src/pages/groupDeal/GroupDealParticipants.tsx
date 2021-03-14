@@ -22,7 +22,7 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
 
     return (
         <div>
-            {!isValidating && participant && (
+            {(!isValidating || participant) && (
                 <div className={classes.dealParticipantContainer}>
                     <div className={classes.userDetails}>
                         <AccountCircleIcon className={classes.userDetail} />
@@ -30,6 +30,7 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
                             {`${createdBy}${participant?.participant?.username}`}
                         </Typography>
                         <Typography className={classes.userDetail} variant="overline">
+                            {/* remove this for user privacy */}
                             {`${participant?.participant?.email}`}
                         </Typography>
                     </div>
