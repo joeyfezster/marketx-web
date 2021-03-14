@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import { doesJWTExist } from 'shared/utils/loginUtils'
+import Header from './Header'
 
 type AppRouteProps = {
     component: any
@@ -25,7 +26,12 @@ const AppRoute = ({
             render={props => {
                 if (restricted) {
                     if (doesJWTExist()) {
-                        return <Component {...props} />
+                        return (
+                            <div>
+                                <Header />
+                                <Component {...props} />
+                            </div>
+                        )
                     } else {
                         return <Redirect
                             to={{

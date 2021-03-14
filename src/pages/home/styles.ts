@@ -36,7 +36,7 @@ export const homePageStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '100%'
+            height: 'calc(100vh - 58px)'
         }
     }),
 )
