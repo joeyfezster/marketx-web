@@ -23,7 +23,7 @@ function App() {
             refreshInterval: 5000
           }}
         >
-          <BrowserRouter basename="marketx-web">
+          <BrowserRouter>
             <Switch>
               <AppRoute path={routePaths.SIGNIN} component={SigninPage} />
               <AppRoute path={routePaths.SIGNUP} component={SignupPage} />
