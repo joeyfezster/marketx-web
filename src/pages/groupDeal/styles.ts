@@ -27,6 +27,48 @@ export const groupDealStyles = makeStyles((theme: Theme) =>
             padding: '20px',
             marginTop: '20px',
         },
+        groupDealMembersContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            border: '1px solid gray',
+            padding: '20px',
+            marginTop: '20px',
+        },
+        commitmentSection: {
+            display: 'flex',
+            width: '100%',
+            border: '1px solid gray',
+            padding: '20px',
+            marginTop: '20px',
+            justifyContent: 'space-between',
+        },
+        commitmentContainer: {
+            display: 'flex',
+            alignItems: 'center'
+        },
+        commitmentInput: {
+            marginRight: '10px'
+        },
+        dealParticipantContainer: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '20px'
+        },
+        userDetails: {
+            display: 'flex',
+            alignItems: 'center'
+        },
+        userDetail: {
+            marginRight: '10px',
+        },
+        commitment: {
+            background: '#22ce99',
+            color: 'white',
+            padding: '0 20px',
+            borderRadius: '20px'
+        },
         shareContainer: {
             display: 'flex',
             marginTop: '20px'

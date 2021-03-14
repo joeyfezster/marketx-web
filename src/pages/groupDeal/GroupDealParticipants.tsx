@@ -1,6 +1,9 @@
-import { Typography } from "@material-ui/core"
 import React from "react"
+import { Typography } from "@material-ui/core"
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
 import { useGetDealParticipant } from "shared/utils/swrHooks/useGetDealParticipant"
+import { groupDealStyles } from "./styles";
 
 type GroupDealParticipantProps = {
     dealParticipantID: number | undefined
@@ -11,6 +14,7 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
     dealParticipantID,
     dealCreatorID,
 }) => {
+    const classes = groupDealStyles()
     const { data: participant, isValidating } = useGetDealParticipant(Number(dealParticipantID))
 
     const isCreator = dealParticipantID === dealCreatorID
@@ -19,16 +23,18 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
     return (
         <div>
             {!isValidating && participant && (
-                <div>
-                    <Typography>
-                        {`${createdBy}username: ${participant?.participant?.username}`}
-                    </Typography>
-                    <Typography>
-                        {/* remove this for user privacy */}
-                        {`Email: ${participant?.participant?.email}`}
-                    </Typography>
-                    <Typography>
-                        {`Commitment: $${participant?.committed_participation}`}
+                <div className={classes.dealParticipantContainer}>
+                    <div className={classes.userDetails}>
+                        <AccountCircleIcon className={classes.userDetail} />
+                        <Typography className={classes.userDetail} variant="overline">
+                            {`${createdBy}${participant?.participant?.username}`}
+                        </Typography>
+                        <Typography className={classes.userDetail} variant="overline">
+                            {`${participant?.participant?.email}`}
+                        </Typography>
+                    </div>
+                    <Typography className={classes.commitment} variant="overline">
+                        {`$${participant?.committed_participation}`}
                     </Typography>
                 </div>
             )}
