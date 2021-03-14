@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFindDealParticipant } from 'shared/utils/swrHooks/useGetDealParticipant'
 import { RootState } from 'store'
+import { groupDealStyles } from './styles'
 
 type LoggedInUserCommitmentProps = {
     groupDealID: number | undefined,
@@ -14,6 +15,7 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
     groupDealID,
     minimumParticipation
 }) => {
+    const classes = groupDealStyles()
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
     const { data: dealParticipant, isValidating } = useFindDealParticipant(Number(loggedInUser.data?.id), groupDealID)
     const [commitment, setCommitment] = useState<number>(dealParticipant?.committed_participation || 0)
@@ -58,14 +60,15 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
         window.location.reload();
     }
 
-    return (
-        <div>
-            {!isValidating && (
-                <div>
-                    <Typography>
-                        {`username: ${loggedInUser.data.username}`}
-                    </Typography>
+    if (!isValidating) {
+        return (
+            <div className={classes.commitmentSection}>
+                <Typography variant="h5">
+                    Your Commitment
+                </Typography>
+                <div className={classes.commitmentContainer}>
                     <TextField
+                        className={classes.commitmentInput}
                         required
                         label="Your Commitment"
                         type="number"
@@ -84,9 +87,11 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
                         {loggedInUserIsAlreadyAParticipant ? "Update" : "Commit to Invest"}
                     </Button>
                 </div>
-            )}
-        </div>
-    )
+            </div>
+        );
+    }
+
+    return null
 }
 
 export default LoggedInUserCommitment
