@@ -1,7 +1,7 @@
 import React from 'react';
 import { withFormik, FormikProps, Form } from 'formik';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LoginUserPayload } from '../state/types'
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -20,10 +20,12 @@ type FormValues = {
 }
 
 const SigninForm = (props: SigninFormProps & FormikProps<FormValues>) => {
+    const location = useLocation()
     const {
         setFieldValue
     } = props;
     const classes = authStyles()
+
     return (
         <Form className={classes.form}>
             <div className={classes.formHeader}>
@@ -62,7 +64,7 @@ const SigninForm = (props: SigninFormProps & FormikProps<FormValues>) => {
             </Button>
             <Link
                 className={classes.formItem}
-                to="/signup"
+                to={{ pathname: "/signup", state: location.state }}
             >
                 Don't have an account? Sign up
             </Link>

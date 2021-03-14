@@ -77,19 +77,21 @@ const HomePage = () => {
 
     return (
         <>
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                onClick={() => setModalVisibility(!modalVisible)}
-            >
-                TRADE
+            <div className={classes.wrapper}>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setModalVisibility(!modalVisible)}
+                >
+                    TRADE
             </Button>
+            </div>
             <Dialog
                 open={modalVisible}
                 onClose={() => setModalVisibility(false)}
             >
-                {modalType === MODAL_TYPE.BUY ? renderBuyOptions() : <CreateGroupFrom onSubmit={onGroupSubmit} onSuccess={() => {}} />}
+                {modalType === MODAL_TYPE.BUY ? renderBuyOptions() : <CreateGroupFrom onSubmit={onGroupSubmit} onSuccess={() => { }} />}
             </Dialog>
         </>
     );

@@ -31,6 +31,12 @@ export const homePageStyles = makeStyles((theme: Theme) =>
         },
         formItem: {
             marginTop: '20px'
+        },
+        wrapper: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%'
         }
     }),
 )

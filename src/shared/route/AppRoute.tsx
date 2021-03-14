@@ -1,7 +1,8 @@
 import React from "react";
 import {
     Redirect,
-    Route
+    Route,
+    useLocation
 } from "react-router-dom";
 
 import { doesJWTExist } from 'shared/utils/loginUtils'
@@ -17,6 +18,7 @@ const AppRoute = ({
     restricted = false,
     path
 }: AppRouteProps) => {
+    const location = useLocation()
     return (
         <Route
             path={path}
@@ -26,10 +28,11 @@ const AppRoute = ({
                         return <Component {...props} />
                     } else {
                         return <Redirect
-                        to={{
-                            pathname: "/signin",
-                        }}
-                    />
+                            to={{
+                                pathname: "/signin",
+                                state: { referrer: location.pathname }
+                            }}
+                        />
                     }
                 } else {
                     return <Component {...props} />

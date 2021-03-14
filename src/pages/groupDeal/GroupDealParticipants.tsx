@@ -18,23 +18,23 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
     const { data: participant, isValidating } = useGetDealParticipant(Number(dealParticipantID))
 
     const isCreator = dealParticipantID === dealCreatorID
-    const createdBy = isCreator ? '*' : ''
 
     return (
         <div>
-            {!isValidating && participant && (
+            {(!isValidating || participant) && (
                 <div className={classes.dealParticipantContainer}>
                     <div className={classes.userDetails}>
-                        <AccountCircleIcon className={classes.userDetail} />
+                        <AccountCircleIcon className={classes.userDetail} color={isCreator ? 'primary' : 'inherit'} />
                         <Typography className={classes.userDetail} variant="overline">
-                            {`${createdBy}${participant?.participant?.username}`}
+                            {`${participant?.participant?.username}`}
                         </Typography>
                         <Typography className={classes.userDetail} variant="overline">
+                            {/* remove this for user privacy */}
                             {`${participant?.participant?.email}`}
                         </Typography>
                     </div>
                     <Typography className={classes.commitment} variant="overline">
-                        {`$${participant?.committed_participation}`}
+                        {`$${participant?.committed_participation?.toLocaleString()}`}
                     </Typography>
                 </div>
             )}
