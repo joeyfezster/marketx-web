@@ -12,11 +12,19 @@ export const groupDealStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
             alignItems: 'center',
         },
-        groupDealHeaderContainer: {
+        groupDealHeaderSection: {
             display: 'flex',
+            flexDirection: 'column',
             width: '100%',
             border: '1px solid gray',
             padding: '20px',
+        },
+        progress: {
+            color: 'red'
+        },
+        groupDealHeaderContainer: {
+            display: 'flex',
+            width: '100%',
             justifyContent: 'space-between'
         },
         groupDealShareContainer: {
