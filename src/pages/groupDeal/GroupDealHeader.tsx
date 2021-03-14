@@ -23,11 +23,11 @@ const GroupDealHeader = ({ groupDeal }: GroupDealHeaderParams) => {
     };
 
     const getAggregatedCommitment = (groupDeal: GroupDeal): number => {
-        let acc: number = groupDeal?.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b, 0)
-        return acc
+        const aggCommitment: number = groupDeal?.deal_participants.reduce((acc, participant) => acc + participant.committed_participation, 0)
+        return aggCommitment
     }
 
-    const progress = getAggregatedCommitment(groupDeal) > (groupDeal.minimum_agg_threshold | 1000000) ? 100 : (getAggregatedCommitment(groupDeal) * 100) / (groupDeal.minimum_agg_threshold | 1000000)
+    const progress = Math.min((getAggregatedCommitment(groupDeal) * 100) / (groupDeal.minimum_agg_threshold || 1000000), 100)
 
     return (
         <div className={classes.groupDealHeaderSection}>
@@ -42,9 +42,6 @@ const GroupDealHeader = ({ groupDeal }: GroupDealHeaderParams) => {
                     <Typography variant="overline">
                         {groupDeal.is_open ? `${timeRemaining(groupDeal?.deal_deadline)} left!` : `This Deal Is Closed`}
                     </Typography>
-                    <Typography variant="overline">
-                        {`We need a minimum of $${minAggThreshold.toLocaleString()} of which $${getAggregatedCommitment(groupDeal).toLocaleString()} has been commited`}
-                    </Typography>
                 </div>
                 <div className={classes.companyInfoContainer}>
                     <img className={classes.companyLogo} src={logo} alt='Robinhood' />
@@ -54,6 +51,9 @@ const GroupDealHeader = ({ groupDeal }: GroupDealHeaderParams) => {
                 </div>
             </div>
             <LinearProgress className={classes.progress} color={progress < 100 ? 'secondary' : 'primary'} variant="determinate" value={progress} />
+            <Typography variant="overline">
+                {`Pledged $${getAggregatedCommitment(groupDeal).toLocaleString()} of $${minAggThreshold.toLocaleString()} goal`}
+            </Typography>
         </div>
     )
 }
