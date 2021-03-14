@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { CreateGroupDealData } from './state/types'
 import { homePageStyles } from './styles'
@@ -25,10 +26,12 @@ type FormValues = {
 
 const CreateGroupForm = (props: CreateGroupFormProps & FormikProps<FormValues>) => {
     const {
+        isSubmitting,
         values,
-        setFieldValue
+        setFieldValue,
     } = props;
     const classes = homePageStyles()
+
     return (
         <div className={classes.createGroupFormContainer}>
             <Typography variant="h5">Name your group</Typography>
@@ -92,14 +95,26 @@ const CreateGroupForm = (props: CreateGroupFormProps & FormikProps<FormValues>) 
                     />}
                     label="Allow members to invite others to join"
                 />
-                <Button
-                    className={classes.formItem}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                >
-                    Continue
-                </Button>
+                {isSubmitting
+                    ?
+                    <Button
+                        className={classes.formItem}
+                        variant="contained"
+                        color="primary"
+                        disabled
+                    >
+                        <CircularProgress size={25} />
+                    </Button>
+                    :
+                    <Button
+                        className={classes.formItem}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                    >
+                        Continue
+                    </Button>
+                }
             </Form>
         </div>
     );
@@ -133,12 +148,18 @@ export default withFormik<CreateGroupFormProps, FormValues>({
     },
 
     handleSubmit: (values, { setSubmitting, props }) => {
+        setSubmitting(true)
         props.onSubmit({
-            groupName: values.groupName,
-            yourCommitment: values.yourCommitment,
-            minimumAggregatedThreshold: values.minimumAggregatedThreshold,
-            minimumParticipation: values.minimumParticipation,
-            usersCanInviteFriends: values.usersCanInviteFriends
+            data: {
+                groupName: values.groupName,
+                yourCommitment: values.yourCommitment,
+                minimumAggregatedThreshold: values.minimumAggregatedThreshold,
+                minimumParticipation: values.minimumParticipation,
+                usersCanInviteFriends: values.usersCanInviteFriends
+            },
+            onSuccess: () => {
+                setSubmitting(false)
+            }
         })
     },
 
