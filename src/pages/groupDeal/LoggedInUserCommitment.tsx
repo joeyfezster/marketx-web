@@ -22,15 +22,19 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
     const { data: dealParticipant, isValidating } = useFindDealParticipant(Number(loggedInUser.data?.id), groupDealID)
     const [commitment, setCommitment] = useState<number>(dealParticipant?.committed_participation || 0)
+    const [loggedInUserIsParticipant, setLoggedInUserIsParticipant] = useState<boolean>(false)
     const dispatch = useDispatch()
-
-    const loggedInUserIsAlreadyAParticipant = !isValidating && dealParticipant && dealParticipant.committed_participation
 
     useEffect(() => {
         if (dealParticipant?.committed_participation) {
             setCommitment(dealParticipant.committed_participation)
         }
     }, [dealParticipant])
+
+    useEffect(() => {
+        const isParticipant = Boolean(!isValidating && dealParticipant && (dealParticipant.committed_participation > 0))
+        setLoggedInUserIsParticipant(isParticipant)
+    }, [isValidating, dealParticipant])
 
     if (!loggedInUser || !loggedInUser.data) {
         return null
@@ -66,7 +70,7 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
             alert(`A minimum of $${minimumParticipation?.toLocaleString()} is required to participate`)
             return
         }
-        if (loggedInUserIsAlreadyAParticipant) {
+        if (loggedInUserIsParticipant) {
             updateExistingDealParticipant()
         }
         else {
@@ -98,7 +102,7 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
                         color="primary"
                         onClick={handleClick}
                     >
-                        {loggedInUserIsAlreadyAParticipant ? "Update" : "Commit to Invest"}
+                        {loggedInUserIsParticipant ? "Update" : "Commit to Invest"}
                     </Button>
                 </div>
             </div>
