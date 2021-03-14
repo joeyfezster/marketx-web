@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import routePaths from 'shared/routePaths'
 import { RegisterUserAction } from './state/authActions'
@@ -13,12 +13,13 @@ const SignupPage: React.FunctionComponent = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = authStyles();
-
+    const location = useLocation<{ referrer?: string }>()
+    
     const onSignupSubmit = (payload: RegisterUserPayload) => {
         dispatch(RegisterUserAction(payload))
     }
     const onSignupSuccess = () => {
-        history.push(routePaths.ROOT)
+        history.replace(location?.state?.referrer || routePaths.ROOT)
     }
 
     return (

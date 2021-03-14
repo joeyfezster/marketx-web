@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import routePaths from 'shared/routePaths'
 import { LoginUserAction } from './state/authActions'
@@ -12,12 +12,13 @@ const SigninPage: React.FunctionComponent = () => {
     const classes = authStyles()
     const dispatch = useDispatch()
     const history = useHistory()
+    const location = useLocation<{ referrer?: string }>()
 
     const onSigninSubmit = (payload: LoginUserPayload) => {
         dispatch(LoginUserAction(payload))
     }
     const onSigninSuccess = () => {
-        history.push(routePaths.ROOT)
+        history.replace(location?.state?.referrer || routePaths.ROOT)
     }
 
     return (
