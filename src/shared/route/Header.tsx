@@ -30,7 +30,7 @@ const Header = () => {
     
     return (
         <div className={classes.root}>
-            <img className={classes.logo} src={logo} alt="logo" />
+            <img className={classes.logo} src={logo} alt="logo" onClick={() => { history.push(routePaths.ROOT) }} />
             <div>
                 <IconButton
                     onClick={handleClick}
