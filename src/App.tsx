@@ -20,7 +20,6 @@ function App() {
         <SWRConfig
           value={{
             fetcher,
-            revalidateOnFocus: false,
           }}
         >
           <BrowserRouter basename="marketx-web">

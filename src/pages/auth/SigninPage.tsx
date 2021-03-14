@@ -8,7 +8,7 @@ import SigninForm from './forms/SigninForm'
 import { LoginUserPayload } from './state/types'
 import { authStyles } from './styles'
 
-const SigninPage = () => {
+const SigninPage: React.FunctionComponent = () => {
     const classes = authStyles()
     const dispatch = useDispatch()
     const history = useHistory()

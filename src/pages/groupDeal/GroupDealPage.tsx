@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom"
 import { GroupDeal, useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
 import logo from "../../shared/hardcodedMedia/robinhood_logo.png"
 import GroupDealParticipant from "./GroupDealParticipants"
+import LoggedInUserCommitment from "./LoggedInUserCommitment"
 
 type GroupDealRouteParams = {
     id: string
@@ -32,9 +33,9 @@ const GroupDealPage: React.FunctionComponent = () => {
                     <hr></hr>
                 </div>
             )}
-            {render && <GroupDealParticipant dealParticipantID={groupDeal?.group_creator.id} />}
-            {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} key={p.id} />)}
-
+            {render && groupDeal?.deal_participants.map(p => <GroupDealParticipant dealParticipantID={p.id} dealCreatorID={groupDeal.group_creator.id} key={p.id} />)}
+            {render && <hr></hr>}
+            {render && <LoggedInUserCommitment groupDealID={groupDeal?.id} minimumParticipation={groupDeal?.minimum_participation} />}
         </div>
     )
 }
@@ -47,12 +48,12 @@ const timeRemaining = (timestamp: string) => {
 };
 
 const getAggregatedCommitment = (groupDeal: GroupDeal): number => {
-    let acc: number = groupDeal.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b)
-    return groupDeal.group_creator.committed_participation + acc
+    let acc: number = groupDeal?.deal_participants.map(p => p.committed_participation).reduceRight((a, b) => a + b, 0)
+    return acc
 }
 
 const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
-    const memberCount = groupDeal.deal_participants?.length ? groupDeal.deal_participants.length + 1 : '¿'
+    const memberCount = groupDeal.deal_participants?.length
     return (
         <div>
             <img src={logo} alt='Robinhood' width="166" height="100" />
@@ -69,7 +70,7 @@ const renderGroupDealHeadder = (groupDeal: GroupDeal) => {
                 {groupDeal.is_open ? `${timeRemaining(groupDeal.deal_deadline)} left!` : `This Deal Is Closed`}
             </Typography>
             <Typography>
-                {`We need a minimum of $${groupDeal.minimum_agg_threshold | 1000000} of which $${getAggregatedCommitment(groupDeal)} has been commited`}
+                {`We need a minimum of $${groupDeal.minimum_agg_threshold || 1000000} of which $${getAggregatedCommitment(groupDeal)} has been commited`}
             </Typography>
         </div>
     )
