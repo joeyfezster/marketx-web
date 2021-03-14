@@ -26,15 +26,12 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
     const dispatch = useDispatch()
 
     useEffect(() => {
+        const isParticipant = Boolean(dealParticipant && (dealParticipant.committed_participation > 0))
+        setLoggedInUserIsParticipant(isParticipant)
         if (dealParticipant?.committed_participation) {
             setCommitment(dealParticipant.committed_participation)
         }
     }, [dealParticipant])
-
-    useEffect(() => {
-        const isParticipant = Boolean(!isValidating && dealParticipant && (dealParticipant.committed_participation > 0))
-        setLoggedInUserIsParticipant(isParticipant)
-    }, [isValidating, dealParticipant])
 
     if (!loggedInUser || !loggedInUser.data) {
         return null
@@ -78,38 +75,34 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
         }
     }
 
-    if (!isValidating) {
-        return (
-            <div className={classes.commitmentSection}>
-                <Typography variant="h5">
-                    Your Commitment
+    return (
+        <div className={classes.commitmentSection}>
+            <Typography variant="h5">
+                Your Commitment
                 </Typography>
-                <div className={classes.commitmentContainer}>
-                    <TextField
-                        className={classes.commitmentInput}
-                        required
-                        label="Your Commitment"
-                        type="number"
-                        variant="outlined"
-                        value={commitment}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                            setCommitment(Number(event.target.value))
-                        }}
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClick}
-                    >
-                        {loggedInUserIsParticipant ? "Update" : "Commit to Invest"}
-                    </Button>
-                </div>
+            <div className={classes.commitmentContainer}>
+                <TextField
+                    className={classes.commitmentInput}
+                    required
+                    label="Your Commitment"
+                    type="number"
+                    variant="outlined"
+                    value={commitment}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setCommitment(Number(event.target.value))
+                    }}
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClick}
+                >
+                    {loggedInUserIsParticipant ? "Update" : "Commit to Invest"}
+                </Button>
             </div>
-        );
-    }
-
-    return null
+        </div>
+    );
 }
 
 export default LoggedInUserCommitment

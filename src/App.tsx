@@ -20,6 +20,7 @@ function App() {
         <SWRConfig
           value={{
             fetcher,
+            refreshInterval: 5000
           }}
         >
           <BrowserRouter basename="marketx-web">
