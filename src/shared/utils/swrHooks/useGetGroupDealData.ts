@@ -23,6 +23,5 @@ export type GroupDeal = {
 export const useGetGroupDeal = (groupDealID: number): SWRResponse<GroupDeal, Error> => {
     const url = apiPaths.GROUP_DEAL(groupDealID)
     const swr = useSWR(url)
-    console.log('group deal', swr.data)
     return { ...swr, data: swr.data }
 }

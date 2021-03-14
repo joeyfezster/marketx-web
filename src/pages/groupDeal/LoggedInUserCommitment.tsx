@@ -63,7 +63,7 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
 
     const handleClick = () => {
         if (minimumParticipation && commitment < minimumParticipation) {
-            alert(`A minimum of ${minimumParticipation} is required to participate`)
+            alert(`A minimum of $${minimumParticipation?.toLocaleString()} is required to participate`)
             return
         }
         if (loggedInUserIsAlreadyAParticipant) {

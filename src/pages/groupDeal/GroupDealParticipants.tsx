@@ -35,7 +35,7 @@ const GroupDealParticipant: React.FunctionComponent<GroupDealParticipantProps> =
                         </Typography>
                     </div>
                     <Typography className={classes.commitment} variant="overline">
-                        {`$${participant?.committed_participation}`}
+                        {`$${participant?.committed_participation?.toLocaleString()}`}
                     </Typography>
                 </div>
             )}
