@@ -52,12 +52,13 @@ const CreateGroupForm = (props: CreateGroupFormProps & FormikProps<FormValues>) 
                     type="number"
                     required
                     name="minimumAggregatedThreshold"
-                    label="Minimum Aggregated Threshold ( $ )"
+                    label="Deal Threshold ( $ )"
                     defaultValue=""
                     variant="outlined"
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setFieldValue('minimumAggregatedThreshold', event.target.value, false)
                     }}
+                    InputProps={{ startAdornment: '$' }}
                 />
                 <TextField
                     className={classes.formItem}
@@ -70,6 +71,7 @@ const CreateGroupForm = (props: CreateGroupFormProps & FormikProps<FormValues>) 
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setFieldValue('yourCommitment', event.target.value, false)
                     }}
+                    InputProps={{ startAdornment: '$' }}
                 />
                 <TextField
                     className={classes.formItem}
@@ -82,6 +84,7 @@ const CreateGroupForm = (props: CreateGroupFormProps & FormikProps<FormValues>) 
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setFieldValue('minimumParticipation', event.target.value, false)
                     }}
+                    InputProps={{ startAdornment: '$' }}
                 />
                 <FormControlLabel
                     className={classes.formItem}

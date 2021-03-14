@@ -20,7 +20,7 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
 }) => {
     const classes = groupDealStyles()
     const { loggedInUser } = useSelector((state: RootState) => state.authState)
-    const { data: dealParticipant, isValidating } = useFindDealParticipant(Number(loggedInUser.data?.id), groupDealID)
+    const { data: dealParticipant } = useFindDealParticipant(Number(loggedInUser.data?.id), groupDealID)
     const [commitment, setCommitment] = useState<number>(dealParticipant?.committed_participation || 0)
     const [loggedInUserIsParticipant, setLoggedInUserIsParticipant] = useState<boolean>(false)
     const dispatch = useDispatch()
@@ -91,6 +91,10 @@ const LoggedInUserCommitment: React.FunctionComponent<LoggedInUserCommitmentProp
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setCommitment(Number(event.target.value))
                     }}
+                    onFocus={(event) => {
+                        event.target.select()
+                    }}
+                    InputProps={{ startAdornment: '$' }}
                 />
                 <Button
                     type="submit"
