@@ -16,6 +16,7 @@ type GroupDealRouteParams = {
 }
 
 const GroupDealPage: React.FunctionComponent = () => {
+    console.log('group deal page')
     const classes = groupDealStyles()
     const { id: groupDealID } = useParams<GroupDealRouteParams>()
     const { data: groupDeal, isValidating, revalidate } = useGetGroupDeal(Number(groupDealID))
