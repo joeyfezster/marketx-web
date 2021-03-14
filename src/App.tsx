@@ -27,6 +27,7 @@ function App() {
             <Switch>
               <AppRoute path={routePaths.SIGNIN} component={SigninPage} />
               <AppRoute path={routePaths.SIGNUP} component={SignupPage} />
+              <AppRoute restricted={true} path="/hello" component={() => (<div>hello</div>)} />
               <AppRoute restricted={true} path={routePaths.GROUP_DEAL} component={GroupDealPage} />
               <AppRoute restricted={true} path="/" component={HomePage} />
             </Switch>
