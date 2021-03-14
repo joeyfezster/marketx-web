@@ -1,15 +1,15 @@
-import React from "react"
 import { CircularProgress, Typography } from "@material-ui/core"
+import React from "react"
 import { useParams } from "react-router-dom"
-
-import { GroupDeal, useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
-import GroupDealParticipant from "./GroupDealParticipants"
-import LoggedInUserCommitment from "./LoggedInUserCommitment"
-import GroupDealHeader from "./GroupDealHeader"
-import GroupDealShare from "./GroupDealShare"
-import { groupDealStyles } from './styles'
-import { mutate } from "swr"
 import apiPaths from "shared/apiPaths"
+import { GroupDeal, useGetGroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
+import { mutate } from "swr"
+import GroupDealHeader from "./GroupDealHeader"
+import GroupDealParticipant from "./GroupDealParticipants"
+import GroupDealShare from "./GroupDealShare"
+import LoggedInUserCommitment from "./LoggedInUserCommitment"
+import { groupDealStyles } from './styles'
+
 
 type GroupDealRouteParams = {
     id: string
@@ -19,7 +19,6 @@ const GroupDealPage: React.FunctionComponent = () => {
     const classes = groupDealStyles()
     const { id: groupDealID } = useParams<GroupDealRouteParams>()
     const { data: groupDeal, isValidating, revalidate } = useGetGroupDeal(Number(groupDealID))
-    const shortlink = window.location.href
     const shouldRender = !isValidating || groupDeal
 
     const renderMembersSection = (groupDeal: GroupDeal) => {

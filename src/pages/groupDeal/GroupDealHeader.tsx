@@ -1,11 +1,11 @@
-import React from "react"
 import Typography from "@material-ui/core/Typography"
-import { formatDistanceToNow, formatDistanceToNowStrict } from "date-fns"
+import { formatDistanceToNow } from "date-fns"
 import { parseISO } from "date-fns/esm"
-
+import React from "react"
 import { GroupDeal } from "shared/utils/swrHooks/useGetGroupDealData"
 import logo from "../../shared/hardcodedMedia/robinhood_logo.png"
 import { groupDealStyles } from './styles'
+
 
 type GroupDealHeaderParams = {
     groupDeal: GroupDeal
